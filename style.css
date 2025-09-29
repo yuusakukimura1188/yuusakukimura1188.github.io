@@ -1,0 +1,193 @@
+/* カスタムTailwind設定とアニメーション */
+:root {
+    /* 白背景でも映える、鮮やかなアクセントカラーを定義 */
+    --color-neon-cyan: #00bcd4;
+    --color-neon-magenta: #e91e63;
+    --color-neon-purple: #9c27b0;
+
+    /* 主要なレイアウト設定 */
+    --max-content-width: 1200px;
+    --spacing-default: 16px; /* モバイルのパディング */
+    --spacing-large: 32px; /* デスクトップのパディング */
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f0f0f5; /* 背景を白基調の薄いグレーに変更 */
+    min-height: 100vh;
+    color: #121218; /* テキストを濃い色に変更し視認性向上 */
+}
+
+/* ページ全体のパディングとアニメーション（旧 .page-body の役割） */
+.page-body {
+    padding: var(--spacing-default);
+    /* 背景のアニメーション設定 - 明るいトーンのグラデーションを使用 */
+    background-image: linear-gradient(120deg, rgba(0, 188, 212, 0.2), rgba(156, 39, 176, 0.2), rgba(233, 30, 99, 0.2), #f0f0f5);
+    background-size: 400% 400%;
+    animation: gradientShift 20s ease infinite; 
+    text-shadow: none;
+}
+
+/* モバイルからタブレット向けのパディング調整 */
+@media (min-width: 768px) {
+    .page-body {
+        padding: var(--spacing-large);
+    }
+}
+
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* ヘッダーセクション */
+.site-header {
+    text-align: center;
+    margin-bottom: 48px; /* mb-12 相当 */
+}
+
+/* タイトル */
+.site-title {
+    font-size: 3rem; /* text-5xl 相当 */
+    font-weight: 800; /* font-extrabold 相当 */
+    letter-spacing: -0.05em; /* tracking-tight 相当 */
+    margin-bottom: 8px; /* mb-2 相当 */
+    
+    /* グラデーションテキスト */
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    background-image: linear-gradient(to right, #00838F, #880E4F); /* cyan-600 to fuchsia-700 相当 */
+}
+
+@media (min-width: 768px) {
+    .site-title {
+        font-size: 4.5rem; /* md:text-7xl 相当 */
+    }
+}
+
+/* サブタイトル */
+.site-subtitle {
+    font-size: 1.25rem; /* text-xl 相当 */
+    color: #4a4a4a; /* text-gray-700 相当 */
+}
+
+@media (min-width: 768px) {
+    .site-subtitle {
+        font-size: 1.5rem; /* md:text-2xl 相当 */
+    }
+}
+
+/* メインコンテンツ - Gridレイアウトを使用 */
+.main-content {
+    max-width: var(--max-content-width); /* max-w-6xl 相当 */
+    margin-left: auto;
+    margin-right: auto;
+    display: grid;
+    gap: 32px; /* gap-8 相当 */
+    
+    /* モバイル: 1カラム */
+    grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+    /* タブレット: 2カラム */
+    .main-content {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    /* デスクトップ: 3カラム */
+    .main-content {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* モーションカード */
+.motion-card {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1), 0 0 10px rgba(0, 188, 212, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    padding: 24px; /* p-6 相当 */
+    border-radius: 12px; /* rounded-xl 相当 */
+    display: flex;
+    flex-direction: column;
+}
+
+.motion-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15), 0 0 20px rgba(0, 188, 212, 0.3);
+}
+
+/* カード内のメディア（画像/動画プレースホルダー） */
+.card-media {
+    width: 100%;
+    height: auto;
+    border-radius: 8px; /* rounded-lg 相当 */
+    margin-bottom: 16px; /* mb-4 相当 */
+    object-fit: cover;
+    border: 1px solid #c0c0c0; /* border-gray-300 相当 */
+}
+
+/* カード内のタイトル */
+.card-title {
+    font-size: 1.5rem; /* text-2xl 相当 */
+    font-weight: 700; /* font-bold 相当 */
+    margin-bottom: 8px; /* mb-2 相当 */
+    color: #0E7490; /* text-cyan-700 相当 */
+}
+
+/* カード内の説明 */
+.card-description {
+    color: #525252; /* text-gray-600 相当 */
+    margin-bottom: 16px; /* mb-4 相当 */
+    flex-grow: 1; /* flex-grow 相当 */
+}
+
+/* ダウンロードボタン */
+.download-btn {
+    background-color: var(--color-neon-magenta);
+    color: white;
+    font-weight: bold;
+    transition: all 0.2s ease-in-out;
+    padding: 12px 24px; /* py-3 px-6 相当 */
+    border-radius: 9999px; /* rounded-full 相当 */
+    font-size: 1.125rem; /* text-lg 相当 */
+    text-align: center;
+    margin-top: auto; /* mt-auto 相当 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* shadow-lg 相当 */
+    display: block; /* a要素をブロック要素にする */
+    text-decoration: none; /* リンクの下線を消す */
+}
+
+.download-btn:hover {
+    box-shadow: 0 0 10px var(--color-neon-magenta);
+    transform: scale(1.05);
+    background-color: #ff4081;
+}
+
+/* ダウンロード中の状態 */
+.downloading {
+    background-color: #9ca3af; /* bg-gray-500 相当 */
+    color: white;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+/* フッター */
+.site-footer {
+    text-align: center;
+    margin-top: 64px; /* mt-16 相当 */
+    color: #525252; /* text-gray-600 相当 */
+    font-size: 0.875rem; /* text-sm 相当 */
+}
