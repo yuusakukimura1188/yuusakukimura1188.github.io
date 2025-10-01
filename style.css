@@ -50,48 +50,48 @@ body {
 /* ヘッダーセクション */
 .site-header {
     text-align: center;
-    margin-bottom: 48px; /* mb-12 相当 */
+    margin-bottom: 48px; 
 }
 
 /* タイトル */
 .site-title {
-    font-size: 3rem; /* text-5xl 相当 */
-    font-weight: 800; /* font-extrabold 相当 */
-    letter-spacing: -0.05em; /* tracking-tight 相当 */
-    margin-bottom: 8px; /* mb-2 相当 */
+    font-size: 3rem; 
+    font-weight: 800; 
+    letter-spacing: -0.05em; 
+    margin-bottom: 8px; 
     
     /* グラデーションテキスト */
     color: transparent;
     -webkit-background-clip: text;
     background-clip: text;
-    background-image: linear-gradient(to right, #00838F, #880E4F); /* cyan-600 to fuchsia-700 相当 */
+    background-image: linear-gradient(to right, #00838F, #880E4F); 
 }
 
 @media (min-width: 768px) {
     .site-title {
-        font-size: 4.5rem; /* md:text-7xl 相当 */
+        font-size: 4.5rem; 
     }
 }
 
 /* サブタイトル */
 .site-subtitle {
-    font-size: 1.25rem; /* text-xl 相当 */
-    color: #4a4a4a; /* text-gray-700 相当 */
+    font-size: 1.25rem; 
+    color: #4a4a4a; 
 }
 
 @media (min-width: 768px) {
     .site-subtitle {
-        font-size: 1.5rem; /* md:text-2xl 相当 */
+        font-size: 1.5rem; 
     }
 }
 
 /* メインコンテンツ - Gridレイアウトを使用 */
 .main-content {
-    max-width: var(--max-content-width); /* max-w-6xl 相当 */
+    max-width: var(--max-content-width); 
     margin-left: auto;
     margin-right: auto;
     display: grid;
-    gap: 32px; /* gap-8 相当 */
+    gap: 32px; 
     
     /* モバイル: 1カラム */
     grid-template-columns: 1fr;
@@ -117,8 +117,8 @@ body {
     border: 1px solid #e0e0e0;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1), 0 0 10px rgba(0, 188, 212, 0.1);
     transition: transform 0.3s, box-shadow 0.3s;
-    padding: 24px; /* p-6 相当 */
-    border-radius: 12px; /* rounded-xl 相当 */
+    padding: 24px; 
+    border-radius: 12px; 
     display: flex;
     flex-direction: column;
 }
@@ -128,29 +128,44 @@ body {
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15), 0 0 20px rgba(0, 188, 212, 0.3);
 }
 
-/* カード内のメディア（画像/動画プレースホルダー） */
-.card-media {
+/* === 動画/画像プレビューの新しいスタイル === */
+/* カード内のメディアコンテナ (動画/画像) */
+.card-media-container {
+    position: relative;
     width: 100%;
-    height: auto;
-    border-radius: 8px; /* rounded-lg 相当 */
-    margin-bottom: 16px; /* mb-4 相当 */
-    object-fit: cover;
-    border: 1px solid #c0c0c0; /* border-gray-300 相当 */
+    /* 16:9のアスペクト比 (動画の標準) を維持 */
+    padding-bottom: 56.25%; /* 9 / 16 * 100% */
+    margin-bottom: 16px; 
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #c0c0c0; /* 画像/動画の境界線 */
 }
+
+/* カード内のメディア（動画要素） */
+.card-media {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* コンテナいっぱいに表示 */
+}
+/* === 変更終了 === */
+
 
 /* カード内のタイトル */
 .card-title {
-    font-size: 1.5rem; /* text-2xl 相当 */
-    font-weight: 700; /* font-bold 相当 */
-    margin-bottom: 8px; /* mb-2 相当 */
-    color: #0E7490; /* text-cyan-700 相当 */
+    font-size: 1.5rem; 
+    font-weight: 700; 
+    margin-bottom: 8px; 
+    color: #0E7490; 
 }
 
 /* カード内の説明 */
 .card-description {
-    color: #525252; /* text-gray-600 相当 */
-    margin-bottom: 16px; /* mb-4 相当 */
-    flex-grow: 1; /* flex-grow 相当 */
+    color: #525252; 
+    margin-bottom: 16px; 
+    flex-grow: 1; 
 }
 
 /* ダウンロードボタン */
@@ -159,14 +174,14 @@ body {
     color: white;
     font-weight: bold;
     transition: all 0.2s ease-in-out;
-    padding: 12px 24px; /* py-3 px-6 相当 */
-    border-radius: 9999px; /* rounded-full 相当 */
-    font-size: 1.125rem; /* text-lg 相当 */
+    padding: 12px 24px; 
+    border-radius: 9999px; 
+    font-size: 1.125rem; 
     text-align: center;
-    margin-top: auto; /* mt-auto 相当 */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* shadow-lg 相当 */
-    display: block; /* a要素をブロック要素にする */
-    text-decoration: none; /* リンクの下線を消す */
+    margin-top: auto; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    display: block; 
+    text-decoration: none; 
 }
 
 .download-btn:hover {
@@ -177,7 +192,7 @@ body {
 
 /* ダウンロード中の状態 */
 .downloading {
-    background-color: #9ca3af; /* bg-gray-500 相当 */
+    background-color: #9ca3af; 
     color: white;
     cursor: not-allowed;
     box-shadow: none;
@@ -187,7 +202,7 @@ body {
 /* フッター */
 .site-footer {
     text-align: center;
-    margin-top: 64px; /* mt-16 相当 */
-    color: #525252; /* text-gray-600 相当 */
-    font-size: 0.875rem; /* text-sm 相当 */
+    margin-top: 64px; 
+    color: #525252; 
+    font-size: 0.875rem; 
 }

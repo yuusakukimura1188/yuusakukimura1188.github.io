@@ -2,62 +2,95 @@
 const motionGraphicsData = [
     {
         id: 1,
-        title: "ネオ・サイバーパルス",
-        description: "未来都市の電脳空間をイメージした、グリッチと流体アニメーションの実験作。",
-        downloadUrl: "motion_01_cyberpulse.zip", // ダウンロードファイル名 (ダミー)
-        imagePlaceholder: "https://placehold.co/400x225/250f61/a5f3fc?text=NEO+01",
+        title: "円形シェイプアニメーション",
+        description: "円形シェイプアニメーションのループ素材。",
+        // サムネイル画像（動画がロードされるまで表示される静止画）
+        imagePlaceholder: "./assets/previews/circular-shape-animation.psd", 
+        // **ホバー再生用の動画ファイルパス (.mp4 推奨)**
+        videoPreview: "./assets/previews/circular-shape-animation.mp4", 
+        // ダウンロードファイルパス
+        downloadUrl: "./assets/downloads/circular-shape-animation.zip",
     },
     {
         id: 2,
-        title: "オーロラ・グリッド",
-        description: "ホログラフィックなグリッドが、幻想的なオーロラの光に包まれるループアニメーション。",
-        downloadUrl: "motion_02_auroragrid.zip", // ダウンロードファイル名 (ダミー)
-        imagePlaceholder: "https://placehold.co/400x225/6d28d9/fbcfe8?text=AURORA+02",
+        title: "and more... ",
+        description: "",
+        imagePlaceholder: "./assets/previews/motion_02_auroragrid_thumb.jpg", 
+        videoPreview: "./assets/previews/motion_02_auroragrid_preview.mp4", 
+        downloadUrl: "./assets/downloads/motion_02_auroragrid.zip", 
     },
     {
         id: 3,
-        title: "シンギュラリティ・エッジ",
-        description: "技術的特異点をテーマにした、高速でシャープなトランジションエフェクト集。",
-        downloadUrl: "motion_03_singularity.zip", // ダウンロードファイル名 (ダミー)
-        imagePlaceholder: "https://placehold.co/400x225/be185d/fecdd3?text=EDGE+03",
+        title: "and more...",
+        description: "",
+        imagePlaceholder: "./assets/previews/motion_03_singularity_thumb.jpg", 
+        videoPreview: "./assets/previews/motion_03_singularity_preview.mp4", 
+        downloadUrl: "./assets/downloads/motion_03_singularity.zip", 
     },
     {
         id: 4,
-        title: "フローティング・マター",
-        description: "低速で漂う抽象的な粒子と、柔らかな光の屈折を表現したミニマルな作品。",
-        downloadUrl: "motion_04_floating.zip", // ダウンロードファイル名 (ダミー)
-        imagePlaceholder: "https://placehold.co/400x225/0891b2/e0f7fa?text=FLOW+04",
+        title: "and more...",
+        description: "",
+        imagePlaceholder: "./assets/previews/motion_04_floating_thumb.jpg", 
+        videoPreview: "./assets/previews/motion_04_floating_preview.mp4", 
+        downloadUrl: "./assets/downloads/motion_04_floating.zip", 
     },
 ];
 
 // --- DOM要素を生成する関数 ---
 function createMotionGraphicCard(data) {
-    // カードのコンテナ要素: カスタムCSSクラス 'motion-card' を適用
+    // カードのコンテナ要素
     const card = document.createElement('div');
     card.className = 'motion-card';
     
-    // 画像/動画のプレースホルダー
-    const media = document.createElement('img');
-    media.src = data.imagePlaceholder;
-    media.alt = data.title + "のプレビュー";
-    media.className = 'card-media'; // カスタムCSSクラス 'card-media' を適用
+    // === 変更点: 画像の代わりに動画要素を生成し、ホバーイベントを設定 ===
+    const mediaContainer = document.createElement('div');
+    mediaContainer.className = 'card-media-container'; // アスペクト比維持用のコンテナ
+
+    // 動画要素
+    const video = document.createElement('video');
+    video.className = 'card-media'; 
+    video.src = data.videoPreview;
+    video.poster = data.imagePlaceholder; // 動画がロードされるまで表示する画像 (サムネイル)
+    video.loop = true;
+    video.muted = true; // 自動再生にはmuted属性が必須
+    video.setAttribute('playsinline', ''); // iOSでのインライン再生を許可
+    video.preload = 'auto'; // 高速な再生開始のため
+
+    mediaContainer.appendChild(video);
+    // === 変更点 終了 ===
+
+    // ホバーイベントリスナーの設定 (カード全体に設定)
+    card.addEventListener('mouseenter', () => {
+        // マウスが乗ったら再生開始し、時間をリセットしてループの初めから
+        video.currentTime = 0; 
+        video.play().catch(e => {
+            // 自動再生がブロックされた場合の処理 (通常はmutedで解決)
+            console.log("動画の自動再生に失敗しました (ブロックされた可能性):", e);
+        });
+    });
+
+    card.addEventListener('mouseleave', () => {
+        // マウスが離れたら一時停止
+        video.pause();
+    });
 
     // タイトル
     const title = document.createElement('h2');
     title.textContent = data.title;
-    title.className = 'card-title'; // カスタムCSSクラス 'card-title' を適用
+    title.className = 'card-title'; 
 
     // 説明
     const description = document.createElement('p');
     description.textContent = data.description;
-    description.className = 'card-description'; // カスタムCSSクラス 'card-description' を適用
+    description.className = 'card-description'; 
 
     // ダウンロードボタン
     const downloadButton = document.createElement('a');
     downloadButton.href = data.downloadUrl;
-    downloadButton.download = data.downloadUrl; // ブラウザにファイル名として提案させる
+    downloadButton.download = data.downloadUrl.split('/').pop(); 
     downloadButton.textContent = 'ダウンロード';
-    downloadButton.className = 'download-btn'; // カスタムCSSクラス 'download-btn' を適用
+    downloadButton.className = 'download-btn'; 
     
     // ボタンがクリックされたときのフィードバック (ダウンロードはダミー)
     downloadButton.onclick = (e) => {
@@ -71,6 +104,7 @@ function createMotionGraphicCard(data) {
         downloadButton.classList.remove('download-btn');
 
         // NOTE: カスタムモーダルがないため、コンソールログで完了を通知し、元の状態に戻します。
+        // 実際にはブラウザがダウンロードを開始します。
         setTimeout(() => {
             console.log(`${data.title} のダウンロード処理が開始されました。`);
             downloadButton.textContent = originalText;
@@ -79,11 +113,11 @@ function createMotionGraphicCard(data) {
         }, 1000);
         
         // リンクの即時遷移を防ぐ
-        e.preventDefault();
+        // e.preventDefault(); // 実際にはダウンロードを許可するためコメントアウト
     };
 
     // カードに要素を追加
-    card.appendChild(media);
+    card.appendChild(mediaContainer); // 動画コンテナを追加
     card.appendChild(title);
     card.appendChild(description);
     card.appendChild(downloadButton);
